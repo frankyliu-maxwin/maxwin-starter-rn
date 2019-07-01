@@ -1,0 +1,3 @@
+rootProject.name = 'maxwinStarter'
+
+include ':app'

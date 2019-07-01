@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, Text, View, StatusBar, Button } from 'react-native';
 
 export default class App extends Component{
   constructor(props) {
@@ -11,7 +10,7 @@ export default class App extends Component{
   }
 
   _renderButton = () => {
-    return <Button mode="contained" onPress={()=>{ this.setState({ Press_Count: this.state.Press_Count + 1 }) }}>Press</Button>
+    return <Button title="Press" onPress={()=>{ this.setState({ Press_Count: this.state.Press_Count + 1 }) }}/>
   }
   render(){
     return (
