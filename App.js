@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Text, View, StatusBar, Button } from 'react-native';
+import { Text, View, StatusBar } from 'react-native';
 import { dp2px } from './helpers/ScreenUtil';
 
 export default class App extends Component{
@@ -17,9 +17,7 @@ export default class App extends Component{
     if(evt.nativeEvent.touches.length === 1){
       this.setState({ X: evt.nativeEvent.locationX, Y: evt.nativeEvent.locationY, touches: evt.nativeEvent.touches.length })
     } else if(evt.nativeEvent.touches.length > 1) {
-      evt.nativeEvent.touches.forEach(() => {
-        this.setState({ touches: evt.nativeEvent.touches.length, X: "", Y: "" })
-      });
+      this.setState({ touches: evt.nativeEvent.touches.length, X: "", Y: "" })
     }
   }
   render(){
