@@ -1,53 +1,51 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, StatusBar, Button } from 'react-native';
+
+import { Text, View, StatusBar, Button } from 'react-native';
+import { dp2px } from './helpers/ScreenUtil';
 
 export default class App extends Component{
   constructor(props) {
     super(props);
     this.state = {
-        Press_Count: 0,
+        X: "",
+        Y: "",
+        touches: 0,
     };
   }
 
-  _renderButton = () => {
-    return <Button title="Press" onPress={()=>{ this.setState({ Press_Count: this.state.Press_Count + 1 }) }}/>
+  handlePress = (evt) => {
+    if(evt.nativeEvent.touches.length === 1){
+      this.setState({ X: evt.nativeEvent.locationX, Y: evt.nativeEvent.locationY, touches: evt.nativeEvent.touches.length })
+    } else if(evt.nativeEvent.touches.length > 1) {
+      evt.nativeEvent.touches.forEach(() => {
+        this.setState({ touches: evt.nativeEvent.touches.length, X: "", Y: "" })
+      });
+    }
   }
   render(){
     return (
-        <View style={{ flex: 1, justifyContent: 'space-between', flexDirection: 'column' }}>
+        <View
+        style={{ backgroundColor: '#DDDDDD', flex: 1 }}
+        onResponderMove={(evt)=> {this.handlePress(evt)}} // 類似 onMouseover
+        onResponderGrant={(evt)=> {this.handlePress(evt)}} // 類似 onPress
+        onMoveShouldSetResponder={()=> true}
+        onStartShouldSetResponder={()=> true}
+        >
           <StatusBar hidden/>
-          <View style={styles.top}>
-            {this._renderButton()}
-            {this._renderButton()}
+          <View style={{ flex: 1, justifyContent: 'flex-start', alignItems: 'center' }}>
+            <Text style={{ fontSize: dp2px(65), fontWeight: 'bold' }}>銓鼎科技股份有限公司</Text>
+            <Text style={{ fontSize: dp2px(65), fontWeight: 'bold' }}>Maxwin-Starter</Text>
           </View>
-          <View style={styles.center}>
-            <Text style={{ fontSize: 30 }}>{`Touch Count: ${this.state.Press_Count}`}</Text>
-            {this._renderButton()}
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ fontSize: dp2px(60) }}>{`Press Anywhere`}</Text>
+            <Text style={{ fontSize: dp2px(60) }}>{`Touches: ${this.state.touches}`}</Text>
+            <View style={{ flexDirection: 'row', margin: dp2px(200) }}>
+              <Text style={{ fontSize: dp2px(65), flex: 1, color: 'red' }}>{`X: ${Number(this.state.X).toFixed(2)} `}</Text>
+              <Text style={{ fontSize: dp2px(65), flex: 1, color: 'blue' }}>{`Y: ${Number(this.state.Y).toFixed(2)}`}</Text>
+            </View>
           </View>
-          <View style={styles.bottom}>
-            {this._renderButton()}
-            {this._renderButton()}
-          </View>
+          <View style={{ flex: 1, justifyContent: 'flex-end' }}/>
         </View>
       );
     }
 }
-
-const styles = StyleSheet.create({
-  top: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  center: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-  },
-  bottom: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-});
